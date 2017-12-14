@@ -1,0 +1,27 @@
+# Make sure this repo is cloned https://github.com/tejastaunad/jenkinspipeline.git
+# This is remote state configurations for terraform and pushing the state files to S3 bucket
+#!/bin/bash 
+set -e
+# Only configure remote state if not already configured.
+cd /var/lib/jenkins/workspace/Job-ec2/ec2 
+if [ -d .terraform ]
+then
+  echo "Remote State is configured"
+else
+	sudo terraform remote config -backend=s3 -backend-config="region=us-west-2" -backend-config="bucket=jenkinstejas" -backend-config="key=ec2_state_file_name"
+fi
+
+
+
+#!/bin/bash 
+cd /var/lib/jenkins/workspace/Job-ec2/ec2
+echo 'variable "aws_access_key"{
+        default = "your access key"
+}
+variable "aws_secret_key"{
+        default = "your secret key"
+}
+' >> var.tf
+sudo terraform plan
+sudo terraform apply
+sudo terraform remote push
