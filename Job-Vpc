@@ -12,6 +12,7 @@ else
 fi
 
 
+
 #!/bin/bash 
 cd /var/lib/jenkins/workspace/Job-Vpc/vpc
 echo 'variable "aws_access_key"{
