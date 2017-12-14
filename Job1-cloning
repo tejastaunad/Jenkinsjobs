@@ -1,0 +1,7 @@
+# job1 is just the name, its not the first job
+# Although the job get cloned automatically since its specified in Source Code Management(git) we will be restructuring the folders so the below code is used
+#!/bin/bash
+sudo rm -rf /var/lib/jenkins/workspace/Job1-cloning/*
+sudo git clone https://github.com/tejastaunad/Jenkinswebpage.git
+sudo rm -rf /var/lib/jenkins/workspace/Job1-cloning/Ansble.pem pom.xml README.md WebContent/
+sudo aws s3 sync /var/lib/jenkins/workspace/Job1-cloning/Jenkinswebpage/ s3://jenkinstejas/Jenkinswebpage/
