@@ -1,0 +1,9 @@
+# This is to update the webpage files when git commits happen.
+#!/bin/bash 
+cd /home/ubuntu
+sudo aws s3 cp s3://jenkinstejas/ec2_state_file_name ec2_terraform.tfstate 
+publicIP=$(grep -Po '"public_ip": *\K"[^"]*"' /home/ubuntu/ec2_terraform.tfstate | perl -pe 's/^.|.$//g')
+echo $publicIP
+sudo chmod -R 777 /var/lib/jenkins/workspace/Job1-cloning/*
+sudo scp -i /home/ubuntu/key.pem -r /var/lib/jenkins/workspace/Job1-cloning/*  ec2-user@$publicIP:/home/ec2-user/apache-tomcat-7.0.82/webapps
+echo http://$publicIP:8080/Jenkinswebpage/WebContent/index.jsp
