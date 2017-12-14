@@ -1,0 +1,11 @@
+# This is remote state configurations for terraform and pushing the state files to S3 bucket
+#!/bin/bash 
+set -e
+# Only configure remote state if not already configured.
+cd /var/lib/jenkins/workspace/Job-Vpc/vpc
+if [ -d .terraform ]
+then
+  sudo terraform remote config -backend=s3 -backend-config="region=us-west-2" -backend-config="bucket=jenkinstejas" -backend-config="key=vpc_state_file_name"
+else
+	sudo terraform remote config -backend=s3 -backend-config="region=us-west-2" -backend-config="bucket=jenkinstejas" -backend-config="key=vpc_state_file_name"
+fi
