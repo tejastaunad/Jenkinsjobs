@@ -1,0 +1,8 @@
+# This is to establish ssh connections and copying the private key will be done is ec2 userdata to host server.
+# Ignore the failure of this job in jenkins, as that is not much concerned.
+cd /home/ubuntu
+sudo aws s3 cp s3://jenkinstejas/ec2_state_file_name ec2_terraform.tfstate 
+publicIP=$(grep -Po '"public_ip": *\K"[^"]*"' /home/ubuntu/ec2_terraform.tfstate | perl -pe 's/^.|.$//g')
+echo $publicIP
+sudo ssh-keyscan $publicIP >> ~/.ssh/known_hosts
+sudo ssh -oStrictHostKeyChecking=no $publicIP uptime
